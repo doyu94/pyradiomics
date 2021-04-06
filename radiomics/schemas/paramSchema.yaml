@@ -135,6 +135,26 @@ mapping:
         type: int
         range:
           min: 0
+      isHousenfieldUnits:
+        type: bool
+      windowWidth:
+        type: int
+      windowLevel:
+        type: int
+      windowInputRange:
+        seq:
+          - type: float
+            range:
+              min: 0
+              max: 255
+      windowOutputRange:
+        seq:
+          - type: float
+            range:
+              min: 0
+              max: 255
+      windowing:
+        type: bool
 
   voxelSetting:
     type: map

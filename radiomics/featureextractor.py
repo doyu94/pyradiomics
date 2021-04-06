@@ -365,6 +365,7 @@ class RadiomicsFeatureExtractor:
     resampledPixelSpacing = kwargs.get('resampledPixelSpacing')
     preCrop = kwargs.get('preCrop', False)
     label = kwargs.get('label', 1)
+    windowing = kwargs.get('windowing', False)
 
     logger.info('Loading image and mask')
     if isinstance(ImageFilePath, six.string_types) and os.path.isfile(ImageFilePath):
@@ -390,6 +391,10 @@ class RadiomicsFeatureExtractor:
       # It is therefore possible that image and mask do not align, or even have different sizes.
       generalInfo.addMaskElements(None, mask, label)
 
+    # Windowing before normalization
+    if windowing:
+        image = imageoperations.windowImage(image, **kwargs)
+
     # This point is only reached if image and mask loaded correctly
     if normalize:
       image = imageoperations.normalizeImage(image, **kwargs)
@@ -410,6 +415,8 @@ class RadiomicsFeatureExtractor:
         raise ValueError('Mask checks failed during pre-crop')
 
       image, mask = imageoperations.cropToTumorMask(image, mask, bb, **kwargs)
+
+
 
     return image, mask
 

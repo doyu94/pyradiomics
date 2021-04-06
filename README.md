@@ -24,7 +24,7 @@ open-source platform for easy and reproducible Radiomic Feature extraction. By d
 of radiomic capabilities and expand the community.
 
 The platform supports both the feature extraction in 2D and 3D and can be used to calculate single values per feature
-for a region of interest ("segment-based") or to generate feature maps ("voxel-based"). 
+for a region of interest ("segment-based") or to generate feature maps ("voxel-based").
 
 **Not intended for clinical use.**
 
@@ -72,7 +72,7 @@ Alternatively, you can generate the documentation by checking out the master bra
 
     python setup.py build_sphinx
 
-The documentation can then be viewed in a browser by opening `PACKAGE_ROOT\build\sphinx\html\index.html`. 
+The documentation can then be viewed in a browser by opening `PACKAGE_ROOT\build\sphinx\html\index.html`.
 
 Furthermore, an instruction video is available [here](http://radiomics.io/pyradiomics.html).
 
@@ -83,13 +83,13 @@ installed and run:
 
     `python -m pip install pyradiomics`
 
-Detailed installation instructions, as well as instructions for building PyRadiomics from source, are available in the 
+Detailed installation instructions, as well as instructions for building PyRadiomics from source, are available in the
 [documentation](http://pyradiomics.readthedocs.io/en/latest/installation.html).
 
 ### Docker
 PyRadiomics also supports [Dockers](https://www.docker.com/).  Currently, 2 dockers are available:
 
-The first one is a [Jupyter notebook](http://jupyter.org/) with PyRadiomics pre-installed with example Notebooks. 
+The first one is a [Jupyter notebook](http://jupyter.org/) with PyRadiomics pre-installed with example Notebooks.
 
 To get the Docker:
 
@@ -118,7 +118,7 @@ For more information on using docker, see
 
 ### Usage
 PyRadiomics can be easily used in a Python script through the `featureextractor`
-module. Furthermore, PyRadiomics provides a commandline script, `pyradiomics`, for both single image extraction and 
+module. Furthermore, PyRadiomics provides a commandline script, `pyradiomics`, for both single image extraction and
 batchprocessing. Finally, a convenient front-end interface is provided as the 'Radiomics'
 extension for 3D Slicer, available [here](https://github.com/Radiomics/SlicerRadiomics).
 
@@ -135,7 +135,7 @@ extension for 3D Slicer, available [here](https://github.com/Radiomics/SlicerRad
 See also the [requirements file](requirements.txt).
 
 ### 3D Slicer
-PyRadiomics is also available as an [extension](https://github.com/Radiomics/SlicerRadiomics) to [3D Slicer](slicer.org). 
+PyRadiomics is also available as an [extension](https://github.com/Radiomics/SlicerRadiomics) to [3D Slicer](slicer.org).
 Download and install the 3D slicer [nightly build](http://download.slicer.org/), the extension is then available in the
 extension manager under "SlicerRadiomics".
 
@@ -150,10 +150,10 @@ This package is covered by the open source [3-clause BSD License](LICENSE.txt).
  - [Ahmed Hosny](https://github.com/ahmedhosny)<sup>1</sup>
  - [Steve Pieper](https://github.com/pieper)<sup>6</sup>
  - [Hugo Aerts (PI)](https://github.com/hugoaerts)<sup>1,2</sup>
- 
+
 <sup>1</sup>Department of Radiation Oncology, Dana-Farber Cancer Institute, Brigham and Women's Hospital, Harvard Medical School, Boston, MA,
 <sup>2</sup>Department of Radiology, Brigham and Women's Hospital, Harvard Medical School, Boston, MA,
-<sup>3</sup>Department of Radiology, Netherlands Cancer Institute, Amsterdam, The Netherlands, 
+<sup>3</sup>Department of Radiology, Netherlands Cancer Institute, Amsterdam, The Netherlands,
 <sup>4</sup>GROW-School for Oncology and Developmental Biology, Maastricht University Medical Center, Maastricht, The Netherlands,
 <sup>5</sup>Kitware,
 <sup>6</sup>Isomics
@@ -164,5 +164,17 @@ We are happy to help you with any questions. Please contact us on the [Radiomics
 We welcome contributions to PyRadiomics. Please read the [contributing guidelines](CONTRIBUTING.rst) on how to
 contribute to PyRadiomics.
 
-**This work was supported in part by the US National Cancer Institute grant 
+**This work was supported in part by the US National Cancer Institute grant
 5U24CA194354, QUANTITATIVE RADIOMICS SYSTEM DECODING THE TUMOR PHENOTYPE.**
+
+## Additional Notes for CT Windowing Feature
+Setting `windowing` to `true` enables windowing operation `windowImage` in
+`imageoperations`. If window level and width are to be set in Housenfield units (HU), set `isHousenfieldUnits` to `true` and give appropriate values to `windowLevel` and `windowWidth`. If not, `SimpleITK.IntensityWindowing` is called with input/output ranges from 0.0 to 255.0 (float values).
+Example:
+```{python}
+setting = {}
+setting['windowing'] = true
+setting['isHousenfieldUnits'] = true
+setting['windowLevel'] = -600
+setting['windowWidth'] = 1500
+```

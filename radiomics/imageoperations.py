@@ -597,6 +597,36 @@ def normalizeImage(image, **kwargs):
 
   return image
 
+def windowImage(image, **kwargs):
+    r"""
+
+    """
+    global logger
+    isHousenfieldUnits = kwargs.get('isHousenfieldUnits', True)
+
+    if isHousenfieldUnits:
+        logger.debug('Using Housenfield Units')
+        level = kwargs.get('windowLevel')
+        width = kwargs.get('windowWidth')
+        logger.debug('Windowing image with level %d and width %d', level, width)
+        imageArr = sitk.GetArrayFromImage(image)
+        imageArr = numpy.piecewise(imageArr, [imageArr <= (level - 0.5 - (width - 1)/2),
+        imageArr > (level - 0.5 + (width - 1)/2)],
+        [0, 255, lambda data: ((data - (level - 0.5))/ (width - 1) + 0.5)*255])
+        newImage = sitk.GetImageFromArray(imageArr)
+        newImage.CopyInformation(image)
+        image = newImage
+    else:
+        logger.debug('Assuming Grey-Scale from 0.0 to 255.0')
+        windowInputRange = kwargs.get('windowInputRange')
+        windowOutputRange = kwargs.get('windowOutputRange')
+        # Check ranges
+        logger.debug('Calling sitk::IntensityWindowing with Input Range: {inputRange} and Output Range: {outputRange}'.format(inputRange=windowInputRange, outputRange=windowOutputRange))
+        args = windowInputRange + windowOutputRange
+        image = sitk.IntensityWindowing(image, *args)
+    logger.warning('Discretization will not have physical meaning as usual due to scaling. ' +
+        'Please check when using binWidth and binCount.')
+    return image
 
 def resegmentMask(imageNode, maskNode, **kwargs):
   r"""
