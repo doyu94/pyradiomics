@@ -624,8 +624,6 @@ def windowImage(image, **kwargs):
         logger.debug('Calling sitk::IntensityWindowing with Input Range: {inputRange} and Output Range: {outputRange}'.format(inputRange=windowInputRange, outputRange=windowOutputRange))
         args = windowInputRange + windowOutputRange
         image = sitk.IntensityWindowing(image, *args)
-    logger.warning('Discretization will not have physical meaning as usual due to scaling. ' +
-        'Please check when using binWidth and binCount.')
     return image
 
 def resegmentMask(imageNode, maskNode, **kwargs):

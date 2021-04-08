@@ -80,6 +80,15 @@ class RadiomicsFeatureExtractor:
       self.settings.update(kwargs)
       logger.debug("Settings: %s", self.settings)
 
+    # Scale binWidth if Windowing is enabled
+    if self.settings.get('windowing', False) and self.settings.get('isHousenfieldUnits', False):
+      logger.debug("Windowing is Enabled: Scaling binWidth")
+      binWidth = self.settings.get("binWidth", 25)
+      windowWidth = self.settings.get("windowWidth", 255)
+      newBinWidth = 255.0 / (windowWidth - 1) * binWidth
+      self.settings.update({'binWidth' : newBinWidth})
+      logger.debug("binWidth scaled from {} to {}".format(binWidth, newBinWidth))
+
     if self.settings.get('binCount', None) is not None:
       logger.warning('Fixed bin Count enabled! However, we recommend using a fixed bin Width. See '
                      'http://pyradiomics.readthedocs.io/en/latest/faq.html#radiomics-fixed-bin-width for more '
